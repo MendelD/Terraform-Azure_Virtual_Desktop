@@ -1,5 +1,5 @@
 # Create AVD workspaces
-resource "azurerm_virtual_desktop_workspace" "workspace" {
+resource "azurerm_virtual_desktop_workspace" "vdws" {
   for_each = local.vdws
 
   name                = each.value.name
