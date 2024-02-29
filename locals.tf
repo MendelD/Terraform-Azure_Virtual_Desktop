@@ -34,6 +34,17 @@ locals {
   }
 }
 
+### VIRTUAL DESKTOP HOST POOL REGISTRATION INFO ###
+locals {
+  vdpoolregistration = {
+    avd = {
+      Hostpool_id     = azurerm_virtual_desktop_host_pool.vdpool["avd"].name
+      expiration_date = var.rfc3339
+    }
+
+  }
+}
+
 ### VIRTUAL DESKTOP APPLICATION GROUPS ###
 locals {
   vdag = {

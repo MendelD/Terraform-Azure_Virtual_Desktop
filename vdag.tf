@@ -1,4 +1,4 @@
-# Create Virtual desktops
+# Create Virtual desktop application groups
 resource "azurerm_virtual_desktop_application_group" "vdag" {
   for_each = local.vdag
 
