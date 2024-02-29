@@ -38,7 +38,7 @@ locals {
 locals {
   vdpoolregistration = {
     avd = {
-      Hostpool_id     = azurerm_virtual_desktop_host_pool.vdpool["avd"].name
+      hostpool_id     = azurerm_virtual_desktop_host_pool.vdpool["avd"].id
       expiration_date = var.rfc3339
     }
 
