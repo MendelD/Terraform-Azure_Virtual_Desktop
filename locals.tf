@@ -108,7 +108,7 @@ locals {
       ip_configuration = {
         name                          = lower("nic_config-avd-${var.prefix}-${var.location}-001")
         subnet_id                     = azurerm_subnet.snet["avd"].id
-        private_ip_address_allocation = "dynamic"
+        private_ip_address_allocation = "Dynamic"
       }
 
       depends_on = [
@@ -119,3 +119,37 @@ locals {
   }
 }
 
+### VIRTUAL MACHINE ###
+locals {
+  vm = {
+    avd = {
+      name                  = lower("vm-avd-${var.prefix}-001")
+      resource_group_name   = azurerm_resource_group.rg["avd"].name
+      location              = var.location
+      size                  = var.vm_size
+      network_interface_ids = [azurerm_network_interface.nic["avd"].id]
+      provision_vm_agent    = true
+      admin_username        = var.admin_username
+      admin_password        = var.admin_password
+
+      os_disk = {
+        name                 = lower("osdisk-avd-${var.prefix}-001")
+        caching              = "ReadWrite"
+        storage_account_type = "Standard_LRS"
+      }
+
+      source_image_reference = {
+        publisher = "MicrosoftWindowsDesktop"
+        offer     = "Windows-10"
+        sku       = "20h2-evd"
+        version   = "latest"
+      }
+
+      depends_on = [
+        azurerm_resource_group.rg["avd"],
+        azurerm_network_interface.nic["avd"]
+      ]
+    }
+  }
+
+}

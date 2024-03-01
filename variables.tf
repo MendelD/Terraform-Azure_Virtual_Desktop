@@ -26,11 +26,20 @@ variable "prefix" {
 
 variable "rfc3339" {
   type        = string
-  default     = "2024-03-28T12:43:13Z"
   description = "Registration token expiration"
 }
 
-variable "rdsh_count" {
-  description = "Number of AVD machines to deploy"
-  default     = 2
+variable "vm_size" {
+  type        = string
+  description = "Size of the machine to deploy"
+}
+
+variable "admin_username" {
+  type        = string
+  description = "VM Admin username"
+}
+
+variable "admin_password" {
+  type        = string
+  description = "VM Admin password"
 }
