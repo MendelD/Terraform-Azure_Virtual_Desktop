@@ -25,7 +25,12 @@ variable "prefix" {
 }
 
 variable "rfc3339" {
-type        = string
-default     = "2024-03-28T12:43:13Z"
-description = "Registration token expiration"
+  type        = string
+  default     = "2024-03-28T12:43:13Z"
+  description = "Registration token expiration"
+}
+
+variable "rdsh_count" {
+  description = "Number of AVD machines to deploy"
+  default     = 2
 }

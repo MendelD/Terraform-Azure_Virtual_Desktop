@@ -59,26 +59,63 @@ locals {
   }
 }
 
+### VIRTUAL DESKTOP LOCAL PASSWORD ###
+locals {
+  localpwd = {
+    avd = {
+      length           = 16
+      special          = true
+      min_special      = 2
+      override_special = "*!@#?"
+    }
+
+  }
+}
+
 ### VIRTUAL NETWORKS ###
-#locals {
-#  vnet = {
-#    azure01 = {
-#      name          = lower("vnet-azure01-${var.prefix}-${var.location}")
-#      address_space = ["172.16.0.0/16", "fd54:544b:bef7::/48"]
-#      rg            = azurerm_resource_group.rg["infrastructure"]
-#    }
-#  }
-#}
+locals {
+  vnet = {
+    avd = {
+      name                = lower("vnet-avd-${var.prefix}-${var.location}-001")
+      address_space       = ["172.16.0.0/16", "fd54:544b:bef7::/48"]
+      resource_group_name = azurerm_resource_group.rg["avd"].name
+      location            = var.location
+    }
+  }
+}
 
 ### SUBNETS ###
-#locals {
-#  subnet = {
-#    server01 = {
-#      name              = lower("snet-server-${var.prefix}-${var.location}")
-#      address_prefixes  = ["172.16.10.0/24", "fd54:544b:bef7:a::/64"]
-#      vnet              = azurerm_virtual_network.vnet["azure01"]
-#      rg                = azurerm_resource_group.rg["infrastructure"]
-#      service_endpoints = []
-#    }
-#  }
-#}
+locals {
+  snet = {
+    avd = {
+      name                 = lower("snet-avd-${var.prefix}-${var.location}-001")
+      address_prefixes     = ["172.16.10.0/24", "fd54:544b:bef7:a::/64"]
+      virtual_network_name = azurerm_virtual_network.vnet["avd"].name
+      resource_group_name  = azurerm_resource_group.rg["avd"].name
+      service_endpoints    = []
+    }
+  }
+}
+
+### VIRTUAL DESKTOP NETWORK INTERFACE ###
+locals {
+  nic = {
+    avd = {
+      name                = lower("nic-avd-${var.prefix}-${var.location}-001")
+      resource_group_name = azurerm_resource_group.rg["avd"].name
+      location            = var.location
+
+      ip_configuration = {
+        name                          = lower("nic_config-avd-${var.prefix}-${var.location}-001")
+        subnet_id                     = azurerm_subnet.snet["avd"].id
+        private_ip_address_allocation = "dynamic"
+      }
+
+      depends_on = [
+        azurerm_resource_group.rg["avd"]
+      ]
+    }
+
+  }
+}
+
