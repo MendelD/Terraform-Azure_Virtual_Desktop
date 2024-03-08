@@ -43,3 +43,23 @@ variable "admin_password" {
   type        = string
   description = "VM Admin password"
 }
+
+variable "tenant_id" {
+  type        = string
+  description = "Tenant ID"
+}
+
+variable "subscription_id" {
+  type        = string
+  description = "Subscription ID"
+}
+
+variable "client_id" {
+  type        = string
+  description = "Terraform Service Principal client ID"
+}
+
+variable "client_secret" {
+  type        = string
+  description = "Terraform Service Principal client secret"
+}
